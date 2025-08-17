@@ -36,10 +36,15 @@ RUN npm ci
 # Build frontend assets
 RUN npm run build
 
+# Create SQLite database file
+RUN touch /var/www/database/database.sqlite
+
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 755 /var/www/storage \
-    && chmod -R 755 /var/www/bootstrap/cache
+    && chmod -R 755 /var/www/bootstrap/cache \
+    && chmod 664 /var/www/database/database.sqlite \
+    && chmod 775 /var/www/database
 
 # Copy nginx configuration
 COPY docker/nginx.conf /etc/nginx/nginx.conf
