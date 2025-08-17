@@ -1,21 +1,4 @@
-# Multi-stage build for Laravel + Vue application
-FROM node:20-alpine AS frontend-builder
-
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Install node dependencies
-RUN npm ci
-
-# Copy source code
-COPY . .
-
-# Build frontend assets
-RUN npm run build
-
-# PHP/Laravel stage
+# Single stage build for Laravel + Vue application
 FROM php:8.2-fpm-alpine
 
 # Install system dependencies
@@ -28,7 +11,9 @@ RUN apk add --no-cache \
     zip \
     unzip \
     nginx \
-    supervisor
+    supervisor \
+    nodejs \
+    npm
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
@@ -45,11 +30,17 @@ COPY composer*.json ./
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
+# Copy package files
+COPY package*.json ./
+
+# Install node dependencies
+RUN npm ci
+
 # Copy application code
 COPY . .
 
-# Copy built frontend assets from previous stage
-COPY --from=frontend-builder /app/public/build ./public/build
+# Build frontend assets
+RUN npm run build
 
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www \
