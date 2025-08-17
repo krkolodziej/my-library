@@ -47,8 +47,10 @@ COPY docker/nginx.conf /etc/nginx/nginx.conf
 # Copy supervisor configuration
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Create nginx directories
-RUN mkdir -p /run/nginx
+# Create necessary directories
+RUN mkdir -p /run/nginx \
+    && mkdir -p /var/log/supervisor \
+    && mkdir -p /var/run
 
 # Expose port
 EXPOSE 80
