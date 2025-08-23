@@ -29,26 +29,24 @@ WORKDIR /var/www
 COPY . .
 
 # Create .env file with production settings
-RUN cat > .env << 'EOF'
-APP_NAME=Laravel
-APP_ENV=production
-APP_KEY=base64:huw8KW8S8q1ZgiovmmQkSxcA6HxdJkXJdGfV85j+1Bs=
-APP_DEBUG=false
-APP_URL=https://my-library-h5sk.onrender.com
-APP_LOCALE=en
-APP_FALLBACK_LOCALE=en
-LOG_CHANNEL=stack
-LOG_LEVEL=debug
-DB_CONNECTION=sqlite
-SESSION_DRIVER=database
-SESSION_LIFETIME=120
-BROADCAST_CONNECTION=log
-FILESYSTEM_DISK=local
-QUEUE_CONNECTION=database
-CACHE_STORE=database
-MAIL_MAILER=log
-VITE_APP_NAME=Laravel
-EOF
+RUN echo 'APP_NAME=Laravel' > .env && \
+    echo 'APP_ENV=production' >> .env && \
+    echo 'APP_KEY=base64:huw8KW8S8q1ZgiovmmQkSxcA6HxdJkXJdGfV85j+1Bs=' >> .env && \
+    echo 'APP_DEBUG=false' >> .env && \
+    echo 'APP_URL=https://my-library-h5sk.onrender.com' >> .env && \
+    echo 'APP_LOCALE=en' >> .env && \
+    echo 'APP_FALLBACK_LOCALE=en' >> .env && \
+    echo 'LOG_CHANNEL=stack' >> .env && \
+    echo 'LOG_LEVEL=debug' >> .env && \
+    echo 'DB_CONNECTION=sqlite' >> .env && \
+    echo 'SESSION_DRIVER=database' >> .env && \
+    echo 'SESSION_LIFETIME=120' >> .env && \
+    echo 'BROADCAST_CONNECTION=log' >> .env && \
+    echo 'FILESYSTEM_DISK=local' >> .env && \
+    echo 'QUEUE_CONNECTION=database' >> .env && \
+    echo 'CACHE_STORE=database' >> .env && \
+    echo 'MAIL_MAILER=log' >> .env && \
+    echo 'VITE_APP_NAME=Laravel' >> .env
 
 # Install PHP dependencies
 RUN composer install --optimize-autoloader --no-interaction
