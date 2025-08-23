@@ -44,12 +44,21 @@ Route::get('/health', function () {
 
 // Simple test without Inertia
 Route::get('/simple', function () {
-    return response()->json([
-        'status' => 'Simple route works',
-        'laravel' => Application::VERSION,
-        'php' => PHP_VERSION,
-        'timestamp' => date('Y-m-d H:i:s'),
-    ]);
+    try {
+        return response()->json([
+            'status' => 'Simple route works',
+            'laravel' => Application::VERSION,
+            'php' => PHP_VERSION,
+            'timestamp' => date('Y-m-d H:i:s'),
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'error' => 'Simple route failed',
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+        ], 500);
+    }
 });
 
 // Debug route for production troubleshooting
