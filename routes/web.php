@@ -16,19 +16,27 @@ Route::get('/', function () {
     ]);
 });
 
+// Simple health check
+Route::get('/health', function () {
+    return 'OK - ' . date('Y-m-d H:i:s');
+});
+
 // Debug route for production troubleshooting
 Route::get('/debug-info', function () {
-    return response()->json([
-        'app_env' => env('APP_ENV'),
-        'app_debug' => env('APP_DEBUG'),
-        'app_key_set' => !empty(env('APP_KEY')),
-        'db_connection' => env('DB_CONNECTION'),
-        'db_file_exists' => file_exists(database_path('database.sqlite')),
-        'db_writable' => is_writable(database_path('database.sqlite')),
-        'storage_writable' => is_writable(storage_path()),
-        'php_version' => PHP_VERSION,
-        'laravel_version' => Application::VERSION,
-    ]);
+    try {
+        return response()->json([
+            'status' => 'working',
+            'timestamp' => date('Y-m-d H:i:s'),
+            'app_env' => env('APP_ENV', 'undefined'),
+            'app_debug' => env('APP_DEBUG', 'undefined'),
+            'app_key_set' => !empty(env('APP_KEY')),
+            'db_connection' => env('DB_CONNECTION', 'undefined'),
+            'php_version' => PHP_VERSION,
+            'laravel_version' => Application::VERSION,
+        ]);
+    } catch (Exception $e) {
+        return response('Error: ' . $e->getMessage(), 500);
+    }
 });
 
 Route::get('/dashboard', function () {
