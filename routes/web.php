@@ -16,7 +16,7 @@ Route::get('/', function () {
     ]);
 });
 
-// Simple health check
+// Simple health check (Laravel 12 uses /up by default)
 Route::get('/health', function () {
     return 'OK - ' . date('Y-m-d H:i:s');
 });

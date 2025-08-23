@@ -46,10 +46,14 @@ RUN touch /var/www/database/database.sqlite \
 
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www/storage \
-    && chmod -R 755 /var/www/bootstrap/cache \
+    && chmod -R 775 /var/www/storage \
+    && chmod -R 775 /var/www/bootstrap/cache \
     && chmod 664 /var/www/database/database.sqlite \
-    && chmod 775 /var/www/database
+    && chmod 775 /var/www/database \
+    && mkdir -p /var/www/storage/framework/cache \
+    && mkdir -p /var/www/storage/framework/sessions \
+    && mkdir -p /var/www/storage/framework/views \
+    && chmod -R 775 /var/www/storage/framework
 
 # Copy nginx configuration
 COPY docker/nginx.conf /etc/nginx/nginx.conf
