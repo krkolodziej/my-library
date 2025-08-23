@@ -33,7 +33,7 @@ RUN cat > .env << 'EOF'
 APP_NAME=Laravel
 APP_ENV=production
 APP_KEY=base64:huw8KW8S8q1ZgiovmmQkSxcA6HxdJkXJdGfV85j+1Bs=
-APP_DEBUG=true
+APP_DEBUG=false
 APP_URL=https://my-library-h5sk.onrender.com
 APP_LOCALE=en
 APP_FALLBACK_LOCALE=en

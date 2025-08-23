@@ -8,33 +8,12 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    // Temporary simple HTML response to test routing
-    return response('
-        <h1>Laravel Application Working</h1>
-        <p>PHP Version: ' . PHP_VERSION . '</p>
-        <p>Laravel Version: ' . Application::VERSION . '</p>
-        <p>Time: ' . date('Y-m-d H:i:s') . '</p>
-        <p><a href="/up">Health Check</a></p>
-        <p><a href="/simple">Simple Test</a></p>
-        <p><a href="/dashboard">Dashboard (requires login)</a></p>
-    ', 200, ['Content-Type' => 'text/html']);
-    
-    // Original Inertia code - will restore after fixing routing
-    /*
-    try {
-        return Inertia::render('Welcome', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-        ]);
-    } catch (Exception $e) {
-        return response()->json([
-            'error' => 'Inertia render failed',
-            'message' => $e->getMessage(),
-        ], 500);
-    }
-    */
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
 });
 
 // Simple health check (Laravel 12 uses /up by default)
@@ -42,24 +21,6 @@ Route::get('/health', function () {
     return 'OK - ' . date('Y-m-d H:i:s');
 });
 
-// Simple test without Inertia
-Route::get('/simple', function () {
-    try {
-        return response()->json([
-            'status' => 'Simple route works',
-            'laravel' => Application::VERSION,
-            'php' => PHP_VERSION,
-            'timestamp' => date('Y-m-d H:i:s'),
-        ]);
-    } catch (Exception $e) {
-        return response()->json([
-            'error' => 'Simple route failed',
-            'message' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-        ], 500);
-    }
-});
 
 // Debug route for production troubleshooting
 Route::get('/debug-info', function () {
