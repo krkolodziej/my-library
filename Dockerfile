@@ -27,8 +27,12 @@ WORKDIR /var/www
 
 # Copy application code first
 COPY . .
-# Ensure .env is copied (if not in .gitignore)
-COPY .env.example .env
+
+# Create .env file with production settings
+RUN cp .env.example .env \
+    && sed -i 's/APP_ENV=local/APP_ENV=production/' .env \
+    && sed -i 's|APP_URL=http://localhost|APP_URL=https://my-library-h5sk.onrender.com|' .env \
+    && echo "APP_KEY=base64:huw8KW8S8q1ZgiovmmQkSxcA6HxdJkXJdGfV85j+1Bs=" >> .env
 
 # Install PHP dependencies
 RUN composer install --optimize-autoloader --no-interaction
