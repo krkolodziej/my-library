@@ -29,10 +29,26 @@ WORKDIR /var/www
 COPY . .
 
 # Create .env file with production settings
-RUN cp .env.example .env \
-    && sed -i 's/APP_ENV=local/APP_ENV=production/' .env \
-    && sed -i 's|APP_URL=http://localhost|APP_URL=https://my-library-h5sk.onrender.com|' .env \
-    && echo "APP_KEY=base64:huw8KW8S8q1ZgiovmmQkSxcA6HxdJkXJdGfV85j+1Bs=" >> .env
+RUN cat > .env << 'EOF'
+APP_NAME=Laravel
+APP_ENV=production
+APP_KEY=base64:huw8KW8S8q1ZgiovmmQkSxcA6HxdJkXJdGfV85j+1Bs=
+APP_DEBUG=true
+APP_URL=https://my-library-h5sk.onrender.com
+APP_LOCALE=en
+APP_FALLBACK_LOCALE=en
+LOG_CHANNEL=stack
+LOG_LEVEL=debug
+DB_CONNECTION=sqlite
+SESSION_DRIVER=database
+SESSION_LIFETIME=120
+BROADCAST_CONNECTION=log
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=database
+CACHE_STORE=database
+MAIL_MAILER=log
+VITE_APP_NAME=Laravel
+EOF
 
 # Install PHP dependencies
 RUN composer install --optimize-autoloader --no-interaction
