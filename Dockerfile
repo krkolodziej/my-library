@@ -42,8 +42,7 @@ RUN touch /var/www/database/database.sqlite \
     && php artisan migrate --force \
     && php artisan config:clear \
     && php artisan route:clear \
-    && php artisan view:clear \
-    && php artisan route:cache
+    && php artisan view:clear
 
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www \
