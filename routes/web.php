@@ -16,6 +16,21 @@ Route::get('/', function () {
     ]);
 });
 
+// Debug route for production troubleshooting
+Route::get('/debug-info', function () {
+    return response()->json([
+        'app_env' => env('APP_ENV'),
+        'app_debug' => env('APP_DEBUG'),
+        'app_key_set' => !empty(env('APP_KEY')),
+        'db_connection' => env('DB_CONNECTION'),
+        'db_file_exists' => file_exists(database_path('database.sqlite')),
+        'db_writable' => is_writable(database_path('database.sqlite')),
+        'storage_writable' => is_writable(storage_path()),
+        'php_version' => PHP_VERSION,
+        'laravel_version' => Application::VERSION,
+    ]);
+});
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

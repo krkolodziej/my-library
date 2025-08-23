@@ -37,8 +37,11 @@ RUN npm ci
 # Build frontend assets
 RUN npm run build
 
-# Create SQLite database file
-RUN touch /var/www/database/database.sqlite
+# Create SQLite database file and run migrations
+RUN touch /var/www/database/database.sqlite \
+    && php artisan migrate --force \
+    && php artisan config:cache \
+    && php artisan route:cache
 
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www \
