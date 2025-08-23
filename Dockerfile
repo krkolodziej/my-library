@@ -58,11 +58,15 @@ RUN chown -R www-data:www-data /var/www \
 # Copy nginx configuration
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 
+# Copy PHP-FPM configuration
+COPY docker/php-fpm.conf /usr/local/etc/php-fpm.conf
+
 # Copy supervisor configuration
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Create necessary directories
 RUN mkdir -p /run/nginx \
+    && mkdir -p /run/php \
     && mkdir -p /var/log/supervisor \
     && mkdir -p /var/run
 
