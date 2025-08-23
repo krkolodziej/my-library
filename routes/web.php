@@ -8,8 +8,19 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
+    // Temporary simple HTML response to test routing
+    return response('
+        <h1>Laravel Application Working</h1>
+        <p>PHP Version: ' . PHP_VERSION . '</p>
+        <p>Laravel Version: ' . Application::VERSION . '</p>
+        <p>Time: ' . now() . '</p>
+        <p><a href="/up">Health Check</a></p>
+        <p><a href="/dashboard">Dashboard (requires login)</a></p>
+    ', 200, ['Content-Type' => 'text/html']);
+    
+    // Original Inertia code - will restore after fixing routing
+    /*
     try {
-        // Test if Inertia can load at all
         return Inertia::render('Welcome', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
@@ -17,18 +28,12 @@ Route::get('/', function () {
             'phpVersion' => PHP_VERSION,
         ]);
     } catch (Exception $e) {
-        // Enhanced debugging for production
         return response()->json([
             'error' => 'Inertia render failed',
             'message' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-            'trace' => $e->getTraceAsString(),
-            'welcome_component_exists' => file_exists(resource_path('js/Pages/Welcome.vue')),
-            'app_layout_exists' => file_exists(resource_path('views/app.blade.php')),
-            'vite_manifest_exists' => file_exists(public_path('build/manifest.json')),
         ], 500);
     }
+    */
 });
 
 // Simple health check (Laravel 12 uses /up by default)
