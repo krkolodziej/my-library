@@ -13,7 +13,8 @@ RUN apk add --no-cache \
     nginx \
     supervisor \
     nodejs \
-    npm
+    npm \
+    sqlite-dev
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_sqlite pdo_mysql mbstring exif pcntl bcmath gd
