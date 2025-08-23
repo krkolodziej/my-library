@@ -13,8 +13,9 @@ Route::get('/', function () {
         <h1>Laravel Application Working</h1>
         <p>PHP Version: ' . PHP_VERSION . '</p>
         <p>Laravel Version: ' . Application::VERSION . '</p>
-        <p>Time: ' . now() . '</p>
+        <p>Time: ' . date('Y-m-d H:i:s') . '</p>
         <p><a href="/up">Health Check</a></p>
+        <p><a href="/simple">Simple Test</a></p>
         <p><a href="/dashboard">Dashboard (requires login)</a></p>
     ', 200, ['Content-Type' => 'text/html']);
     
@@ -47,7 +48,7 @@ Route::get('/simple', function () {
         'status' => 'Simple route works',
         'laravel' => Application::VERSION,
         'php' => PHP_VERSION,
-        'timestamp' => now(),
+        'timestamp' => date('Y-m-d H:i:s'),
     ]);
 });
 
