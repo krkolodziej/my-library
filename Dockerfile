@@ -27,6 +27,8 @@ WORKDIR /var/www
 
 # Copy application code first
 COPY . .
+# Ensure .env is copied (if not in .gitignore)
+COPY .env.example .env
 
 # Install PHP dependencies
 RUN composer install --optimize-autoloader --no-interaction
