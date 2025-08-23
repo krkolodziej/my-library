@@ -9,6 +9,7 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     try {
+        // Test if Inertia can load at all
         return Inertia::render('Welcome', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
@@ -16,12 +17,16 @@ Route::get('/', function () {
             'phpVersion' => PHP_VERSION,
         ]);
     } catch (Exception $e) {
-        // Fallback for debugging
+        // Enhanced debugging for production
         return response()->json([
-            'error' => 'Inertia failed',
+            'error' => 'Inertia render failed',
             'message' => $e->getMessage(),
             'file' => $e->getFile(),
             'line' => $e->getLine(),
+            'trace' => $e->getTraceAsString(),
+            'welcome_component_exists' => file_exists(resource_path('js/Pages/Welcome.vue')),
+            'app_layout_exists' => file_exists(resource_path('views/app.blade.php')),
+            'vite_manifest_exists' => file_exists(public_path('build/manifest.json')),
         ], 500);
     }
 });
@@ -29,6 +34,16 @@ Route::get('/', function () {
 // Simple health check (Laravel 12 uses /up by default)
 Route::get('/health', function () {
     return 'OK - ' . date('Y-m-d H:i:s');
+});
+
+// Simple test without Inertia
+Route::get('/simple', function () {
+    return response()->json([
+        'status' => 'Simple route works',
+        'laravel' => Application::VERSION,
+        'php' => PHP_VERSION,
+        'timestamp' => now(),
+    ]);
 });
 
 // Debug route for production troubleshooting
